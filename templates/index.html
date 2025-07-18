@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<br><br>
+<div class="row">
+    <a href="#" class="btn col-md-4 btn-primary">
+        'Register a new invoice <span class="badge text-bg-secondary"></span>
+    </a>
+
+    <a href="#" class="col-md-4">
+        <span class="badge text-bg-secondary" ></span>
+    </a>
+
+    <a href="{#" class="btn-col-md-4 btn-primary">
+        Register a new customer' <span class="badge text-bg-secondary"></span>
+    </a>
+</div>
+<br><br>
+<div class="form-group">
+    <input id="search" class="form-control" type="text" placeholder="search...">
+</div>
+<div>
+    <table class="table table-striped-columns">
+        <thead>
+        <tr>
+            <th scope="col"># </th>
+            <th scope="col">CUSTOMERS NAME</th>
+            <th scope="col">DATE</th>
+            <th scope="col">TOTAL</th>
+            <th scope="col">PAID</th>
+            <th scope="col">TYPE OF INVOICE</th>
+            <th scope="col">ACTION</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% if invoices %}
+        {% for facture in invoices %}
+        <tr>
+            <th scope="row">{{facture.pk}}</th>
+            <td>{{facture.customer.name}}</td>
+            <td>{{facture.invoice_date_time}}</td>
+            <td>{{facture.get_total}}</td>
+            <td>
+                {% if facture.paid %}
+                <img src="{% static 'images/icon-yes.png %}" alt="True">
+                {% else %}
+                <img src="{% static 'images/icon-no.png %}" alt="False">
+                {% endif %}
+            </td>
+            <td>{{ facture.invoice_type }}</td>
+            <td>
+                <a href="" title="Detail" class="badge text-white bg-success">View</a>
+                <button id="btn-invoice-sup" type="button" data-toggle="modal" data-target="#supprimer"
+                        class="badge text-white bg-danger" title="Supprimer" data-id="{{ facture.pk }}"
+                        data-customer="{{ facture.client.name }}"> Delete
+                </button>
+
+                <button id="btn-invoice-mod" type="button" data-toggle="modal" title="Modifier" data-target="#modifier"
+                        class="badge text-dark bg-warning" data-id="{{ facture.pk }}" data-customer="{{ facture.customer.name}}">
+                        Modify
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+
+       {% else %}
+        <p class="text-center text-white"> No invoives found</p>
+        {% endif  %}
+
+        </tbody>
+
+    </table>
+</div>
+
+
+<!-- Modal Modofier -->
+{% endblock content %}
